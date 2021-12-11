@@ -25,13 +25,13 @@ variable "iam_custom_policy_action" {
 variable "iam_custom_policy_resource_name" {
     description = "The name of the resouce on which this policy going to effect. it can be particular resource name where you want to provide access to user or group. it can arn:aws:s3:::mybucket, "
     type        = list
-    default     = []
+    default     = ["*"]
 }
 
 variable "iam_custom_policy_effect" {
     description = "The effect of Custom policy, it can either allow or deny"
     type        = string
-    default     = ""
+    default     = "Allow"
 }
 
 variable "iam_custom_policy_attach_user" {

@@ -185,3 +185,71 @@ module "iam_role" {
     }
 }
 ```
+### iam-user Variables
+|Variable|Default Value|Description|Type|
+|---|---|---|---|
+|iam_user_names|nil|IAM User|list|
+|iam_user_paths|nil|Path in which to create the user|list|
+|create_iam_user_login_profile|false|Create IAM User login profile or not, Manages an IAM User Login Profile with limited support for password creation during Terraform resource creation|bool|
+|iam_user_pgp_keys|nil|Either a base-64 encoded PGP public key, or a keybase username in the form keybase:username. Only applies on resource creation. Drift detection is not possible with this argument|list|
+|iam_user_password_length|20|The length of the generated password on resource creation. Only applies on resource creation. Drift detection is not possible with this argument|string|
+|iam_user_password_reset_required|true|Whether the user should be forced to reset the generated password on resource creation. Only applies on resource creation. Drift detection is not possible with this argument|bool|
+|create_iam_access_key|false|Do you want to create a access keys for iam user or not, if you putt true then access keys will be created|bool|
+|iam_user_add_ssh_key|false|Do you want add ssh key with iam user or not, True for add ssh key|bool|
+|iam_user_public_key_encoding|nil|Specifies the public key encoding format to use in the response. To retrieve the public key in ssh-rsa format, use SSH. To retrieve the public key in PEM format, use PEM|list|
+|iam_user_public_ssh_keys|nil|The SSH public key. The public key must be encoded in ssh-rsa format or PEM format|list|
+|iam_user_pass_minimum_password_length|8|Minimum length to require for user passwords|string|
+|iam_user_pass_require_lowercase_characters|true|Whether to require lowercase characters for user passwords|bool|
+|iam_user_pass_require_numbers|true|Whether to require numbers for user passwords|bool|
+|iam_user_pass_require_uppercase_characters|true|Whether to require uppercase characters for user passwords|bool|
+|iam_user_pass_require_symbols|true|Whether to require symbols for user passwords|bool|
+|iam_user_pass_allow_users_to_change_password|true|Whether to allow users to change their own password|bool|
+|iam_user_pass_max_password_age|180|The number of days that an user password is valid|string|
+|tags|nil|A mapping of tags to assign to the resource|map|
+
+### iam-role Variables
+|Variable|Default Value|Description|Type|
+|---|---|---|---|
+|create_iam_role_basic_assume_policy|false|Create IAM Role with Assume Policy define inside a Role|bool|
+|iam_role_name|test-terraform|Friendly name of the role. If omitted, Terraform will assign a random, unique name. See IAM Identifiers for more information|bool|
+|iam_role_description|IAM Role|Description of the role|string|
+|iam_role_force_detach_policies|false|Whether to force detaching any policies the role has before destroying it. Defaults to false|bool|
+|iam_role_assume_policy_action|["ec2:Describe*"]|The actions you want to take on aws services like ec2, s3, iam and so on|list|
+|iam_role_assume_policy_resource_name|["*"]|The name of the resouce on which this policy going to effect. it can be particular resource name where you want to provide access to user or group. it can arn:aws:s3:::mybucket|list|
+|iam_role_assume_policy_effect|"Allow"|The effect of Custom policy, it can either allow or deny|string|
+|create_iam_role_managed_policies|false|Create iam role with Managed Policies and attach these policies in the form of list|bool|
+|iam_role_managed_policy_arns|[]|Set of exclusive IAM managed policy ARNs to attach to the IAM role. If this attribute is not configured, Terraform will ignore policy attachments to this resource. When configured, Terraform will align the role's managed policy attachments with this set by attaching or detaching managed policies. Configuring an empty set (i.e., managed_policy_arns = []) will cause Terraform to remove all managed policy attachments|list|
+|create_iam_role_instance_profile|false|Create iam role with instance profile, if you want to create then provide true, otherwise provide false to skip it. please provide true to create_iam_role_basic_assume_policy variable as well along with it|bool|
+|iam_role_instance_profile_name|nil|Name of the instance profile. If omitted, Terraform will assign a random, unique name. Conflicts with name_prefix. Can be a string of characters consisting of upper and lowercase alphanumeric characters and these special characters: _, +, =, ,, ., @, -. Spaces are not allowed|string|
+|iam_role_instance_profile_path|"/"|Path to the instance profile. For more information about paths, see IAM Identifiers in the IAM User Guide. Can be a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. Can include any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercase letters|string|
+|create_iam_role_for_instance_profile_managed_role|false|If you already have a role and you want to assign it to instance profile, you can provide true value to this one and provide a role name as well in iam_managed_role_name variable|bool|
+|iam_managed_role_name|""|Name of the role to add to the profile|string|
+|tags|nil|A mapping of tags to assign to the resource|map|
+
+### iam-policies Variables
+|Variable|Default Value|Description|Type|
+|---|---|---|---|
+|iam_custom_policy_name|nil|The name of the policy. If omitted, Terraform will assign a random, unique name|string|
+|iam_custom_policy_path|"/"|Path in which to create the policy. See IAM Identifiers for more information. default /|string|
+|iam_custom_policy_description|nil|Description of the IAM policy|string|
+|iam_custom_policy_action|["ec2:Describe*"]|The actions you want to take on aws services like ec2, s3, iam and so on|list|
+|iam_custom_policy_resource_name|[*]|The name of the resouce on which this policy going to effect. it can be particular resource name where you want to provide access to user or group. it can arn:aws:s3:::mybucket|list|
+|iam_custom_policy_effect|"Allow"|The effect of Custom policy, it can either allow or deny|string|
+|iam_custom_policy_attach_user|false|Do you want to attach this policy to user. if yes, provide true value. Default is false|bool|
+|iam_custom_policy_attach_users_name|["test-user1"]|The user(s) the policy should be applied to|list|
+|iam_custom_policy_attach_group|false|Do you want to attach this policy with group, if yes, provide true value. Default is false|bool|
+|iam_custom_policy_attach_groups_name|["test-group1"]|The group(s) the policy should be applied to|list|
+|iam_custom_policy_attach_role|false|Do you want to attach this policy with role, if yes, provide true value, Default is false|bool|
+|iam_custom_policy_attach_roles_name|["test-role1"]|The role(s) the policy should be applied to|list|
+|tags|nil|A mapping of tags to assign to the resource|map|
+
+
+### iam-group Variables
+|Variable|Default Value|Description|Type|
+|---|---|---|---|
+|create_iam_group|false|Provide true value if you want to create the group otherwise please provide false value. default is false|bool|
+|iam_group_name|nil|The group's name. The name must consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-_.. Group names are not distinguished by case. For example, you cannot create groups named both ADMINS and admins|string|
+|iam_group_path|nil|(Optional, default /) Path in which to create the group.|string|
+|add_user_in_group|false|Do you want to attach group with use|bool|
+|iam_group_membership_name|nil|The name to identify the Group Membership|string|
+|iam_users_add_in_group|nil|A list of IAM User names to associate with the Group|list|
